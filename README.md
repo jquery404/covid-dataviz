@@ -31,4 +31,10 @@ npm install http-server -g
 http-server . -p 8000
 </pre>
 
-5. Enjoy!
+5. Copy & Past one of the URLs into your broswer
+<pre>
+http://127.0.0.1:8000
+http://192.168.1.118:8000
+</pre>
+
+6. Enjoy!
