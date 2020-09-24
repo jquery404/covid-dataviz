@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Covid</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        #map{position: absolute; top: 0; bottom: 0; width: 100%;}
+        .bubble {fill-opacity: .5;stroke: #fff;stroke-width: .5px;}
+        .d3-tooltip{position: absolute;z-index: 10;visibility: hidden;padding:15px;background: rgba(0,0,0,0.6);border-radius: 5px;color: #fff;}
+        .table-responsive{height: 750px;overflow-y: scroll;overflow-x: hidden;}
+        path.average {stroke: darkviolet;stroke-width: 1px;fill: none;}
+    </style>
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Confirmed</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800 confirmed">0</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Recovered</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800 recovered">0</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Deaths</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 deaths">0</div>
+                        </div>
+                        <div class="col">
+                          <div class="progress progress-sm mr-2">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Mortality</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800 morality">18</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Row -->
+
+          <div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-xl-4 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Daily New Cases</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <div id="chart_new_cases"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-8 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">World Map</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <div id="map"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-3 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Global Cases</h6>
+                  <h5 class="global_total_cases m-0 font-weight-bold text-primary"></h5>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                        <th>Country/Region</th>
+                        <th>Confirmed</th>
+                        <th>Ratio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="globalCasesTable"></tbody>
+                    </table>
+                </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-6 col-lg-7">
+              <div class="row">
+
+                <div class="col-xl-12 col-lg-7">
+                  <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold text-primary">Cumulative Cases</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                      <div class="chart-area">
+                        <div id="chart_cumulative_cases"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-12 col-lg-7">
+                  <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold text-primary">Flattened Curve</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                      <div class="chart-area">
+                        <div id="chart_moving_new_cases"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Global Recovered</h6>
+                  <h5 class="global_total_recovered m-0 font-weight-bold text-primary"></h5>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                        <th>Country/Region</th>
+                        <th>Recovered</th>
+                        <th>Ratio</th>
+                        </tr>
+                    </thead>
+                    <tbody class="globalRecoveredTable"></tbody>
+                    </table>
+                </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-xl-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
+                    </div>
+                    <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                            <th>Country/Region</th>
+                            <th>State</th>
+                            <th>Confirmed</th>
+                            <th>Recovered</th>
+                            <th>Deaths</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                            <th>Country/Region</th>
+                            <th>State</th>
+                            <th>Confirmed</th>
+                            <th>Recovered</th>
+                            <th>Deaths</th>
+                            </tr>
+                        </tfoot>
+                        <tbody class="dataTable"></tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; SuperUXR 2020</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <div class="d3-tooltip">a simple tooltip</div>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  
+  <script>
+    let maxDate = '2020-09-19';
+    let data = [], sortData = [];
+    let labels = [];
+    let tooltip = $('.d3-tooltip');
+    let currentCountry = 'New Zealand';
+    let dates = [], deaths = [], recovered = [], totalCases = [];
+    let globalDeath = 0, globalRecovered = 0, globalTotalCases = 0;
+    let newCases = [];
+    mapboxgl.accessToken = 'pk.eyJ1IjoianF1ZXJ5NDA0IiwiYSI6ImNpbDQwNHV0YjNzazB1eWtzYWRleXVmOGIifQ.HrzVBbMbMz7Zbxuoie03BQ';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-74.5, 40], 
+        zoom: 3
+    });
+    
+    const svg_height = 300;
+    const svgCum = d3.select("#chart_cumulative_cases").append("svg").attr("width", '100%').attr("height", svg_height);
+    const svgNewCases = d3.select("#chart_new_cases").append("svg").attr("width", '100%').attr("height", svg_height);
+    const svgMovingNewCases = d3.select("#chart_moving_new_cases").append("svg").attr("width", '100%').attr("height", svg_height);
+    
+
+    d3.csv("time-series-19-covid-combined.csv").then(function(data) {
+      let confirmData = [];
+      let container = map.getCanvasContainer();
+      let map_data = [];
+      let countryData = [];
+
+      for(var i=0; i< data.length; i++){
+          if(data[i].Date == maxDate){
+            if(parseInt(data[i].Recovered))
+              globalRecovered += parseInt(data[i].Recovered);
+            globalDeath += parseInt(data[i].Deaths);
+            globalTotalCases += parseInt(data[i].Confirmed);
+
+            if(countryData[data[i]['Country/Region']]){
+              countryData[data[i]['Country/Region']] = {
+                recovered: countryData[data[i]['Country/Region']].recovered + parseInt(data[i].Recovered),
+                death: countryData[data[i]['Country/Region']].death + parseInt(data[i].Deaths),
+                confirmed: countryData[data[i]['Country/Region']].confirmed + parseInt(data[i].Confirmed)
+              };
+            }else{
+              countryData[data[i]['Country/Region']] = {
+                recovered: parseInt(data[i].Recovered),
+                death: parseInt(data[i].Deaths),
+                confirmed: parseInt(data[i].Confirmed)
+              };
+            }
+            
+            sortData.push({
+              country: data[i]['Country/Region'],
+              confirmed: data[i].Confirmed,
+              deaths: data[i].Deaths,
+              recovered: data[i].Recovered,
+              long: data[i].Long,
+              lat: data[i].Lat
+            })
+          }
+
+          if(data[i]['Country/Region'] == currentCountry){
+              $('.recovered').html(parseInt(data[i].Recovered));
+              $('.confirmed').html(parseInt(data[i].Confirmed));
+              $('.deaths').html(parseInt(data[i].Deaths));
+              $('.morality').html((parseInt(data[i].Deaths)/parseInt(data[i].Confirmed)).toFixed(2));
+              $('.dataTable').append(`<tr>
+                <td>${data[i]['Country/Region']}</td>
+                <td>${data[i]['Province/State']}</td>
+                <td>${data[i]['Confirmed']}</td>
+                <td>${data[i]['Recovered']}</td>
+                <td>${data[i]['Deaths']}</td>
+              </tr>`);
+              deaths.push(parseInt(data[i].Deaths));
+              recovered.push(parseInt(data[i].Recovered));
+              totalCases.push(parseInt(data[i].Confirmed));
+              dates.push(data[i].Date);
+          }
+      }
+
+      $('.global_total_cases').html(globalTotalCases);
+      $('.global_total_recovered').html(globalRecovered);
+      
+      for (const country in countryData) {
+        let recRatio = Math.floor((countryData[country].recovered/globalRecovered)*100);
+        let deathRatio = Math.floor((countryData[country].death/globalDeath)*100);
+        $('.globalRecoveredTable').append(`<tr>
+          <td>${country}</td>
+          <td>${countryData[country].recovered}</td>
+          <td>
+            <div style="color: #111; font-size:10px;">${recRatio}%</div>
+            <div class="progress"> 
+              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:${recRatio}%"></div>
+            </div>
+          </td>
+        </tr>`);
+
+        $('.globalCasesTable').append(`<tr>
+          <td>${country}</td>
+          <td>${countryData[country].confirmed}</td>
+          <td>
+            <div style="color: #111; font-size:10px;">${deathRatio}%</div>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:${deathRatio}%"></div>
+            </div>
+          </td>
+        </tr>`);
+      }
+      
+
+      for(var i=0; i< sortData.length; i++){
+        map_data.push([sortData[i].long, sortData[i].lat, sortData[i].deaths]);
+      }
+
+      for(var i=190; i>0; i--)
+        confirmData.push({
+          date: d3.timeParse("%Y-%m-%d")(dates[dates.length-i]),
+          data: totalCases[totalCases.length-i]
+        });
+
+      for(var i=0; i<190; i++){
+        newCases.push(Math.abs(totalCases[i+1] - totalCases[i]));
+      }
+      var radius = d3.scaleSqrt().domain([0, 1e6]).range([0, 80]);
+      var color = d3.scaleOrdinal().domain([0, 1e6]).range([ "#402D54", "#D18975", "#8FD175"])
+
+      var map_svg = d3.select(container).append("svg")
+        .attr("width", "100%")
+        .attr("height", "500")
+        .style("position", "absolute")
+        .style("z-index", 2);
+
+      var dots = map_svg.selectAll("circle").data(map_data).enter().append("circle")
+        .attr("class", "bubble")
+        .style("fill", function(d){ return color(d[2]) })
+        .attr("stroke", function(d){ return color(d[2]) })
+        .attr("r", function(d) { return radius(d[2]); })
+        .on("mouseover", function(d, i) {
+          tooltip.html(`Data: ${i[2]}`).css("visibility", "visible");
+          d3.select(this).attr("fill", '#ff0');
+        })
+        .on("mousemove", function(){
+          tooltip.css({"top": (event.pageY-10)+"px", "left": (event.pageX+10)+"px"});
+        })
+        .on("mouseout", function() {
+          tooltip.html(``).css("visibility", "hidden");
+          d3.select(this).attr("fill", bar_color);
+        });
+      
+      function project(d) {
+          return map.project(new mapboxgl.LngLat(d[0], d[1]));
+      }
+      function render() {
+          dots.attr("cx", function(d) {return project(d).x;})
+              .attr("cy", function(d) {return project(d).y;});
+      }
+      map.on("viewreset", render);
+      map.on("move", render);
+      map.on("moveend", render);
+      render();
+
+      initBarChart(svgNewCases, newCases);
+      initLineChart(svgCum, confirmData);
+      initBarMovingChart(svgMovingNewCases, newCases);
+        
+    });
+
+    function initLineChart(svg, data){
+      const max_bar_width = 100;
+      const bar_color = "#111";
+      const top_offset = 10;
+      const bottom_offset = 20;
+      const svg_width = svg.node().getBoundingClientRect().width;
+      let bar_width = Math.round((svg_width - 60) / data.length);
+      if (bar_width > max_bar_width) bar_width = max_bar_width;
+      let spacing = 0.15 * bar_width;
+      let color = d3.scaleOrdinal().range(["#35978f", "#dfc27d", "#8c510a"]);
+      
+      
+      let x = d3.scaleTime().domain(d3.extent(data, function(d) { return d.date; })).range([0, svg_width]);
+      let y = d3.scaleLinear().domain([
+        d3.min(data, function(d) { return Math.floor(d.data - 200); }),
+        d3.max(data, function(d) { return Math.floor(d.data + 200); })
+	    ]).range([svg_height, 0]);
+
+      // x-axis
+      svg.append("g") 
+        .attr("transform", "translate(0," + (svg_height-bottom_offset) + ")")
+        .call(d3.axisBottom(x));
+      
+      // y-axis
+      svg.append("g")
+        .call(d3.axisLeft(y));
+      
+
+      // line    
+      svg.append("path").datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line().curve(d3.curveBasis)
+          .x(function(d) { return x(d.date); })
+          .y(function(d) { return y(d.data); })
+        )
+        .on("mouseover", function(d, i) {
+          tooltip.html(`Data: ${i.data}`).css("visibility", "visible");
+        })
+        .on("mousemove", function(){
+          tooltip.css({"top": (event.pageY-10)+"px", "left": (event.pageX+10)+"px"});
+        })
+        .on("mouseout", function() {
+          tooltip.html(``).css("visibility", "hidden");
+        });
+    }
+
+
+    function initBarChart(svg, data){
+      const max_bar_width = 100;
+      const bar_color = "#111";
+      const top_offset = 10;
+      const bottom_offset = 30;
+      const svg_width = svg.node().getBoundingClientRect().width;
+      let bar_width = Math.round((svg_width - 60) / data.length);
+      if (bar_width > max_bar_width) bar_width = max_bar_width;
+      let spacing = 0.15 * bar_width;
+      let scale = d3.scaleLinear().domain([0, Math.max(...data)]).range([0, svg_height]);
+      let scale_y_axis = d3.scaleLinear().domain([Math.max(...data), 0]).range([0, svg_height]);
+
+      
+      // rect
+      svg.selectAll("g").data(data).enter().append("rect")
+        .attr("fill", bar_color)
+        .attr("x", (d, i) => 30 + bar_width * i)
+        .attr("y", d => svg_height - scale(d))
+        .attr("width", bar_width - spacing)
+        .attr("height", d => scale(d))
+        .on("mouseover", function(d, i) {
+          tooltip.html(`Data: ${i}`).css("visibility", "visible");
+          d3.select(this).attr("fill", '#ff0');
+        })
+        .on("mousemove", function(){
+          tooltip.css({"top": (event.pageY-10)+"px", "left": (event.pageX+10)+"px"});
+        })
+        .on("mouseout", function() {
+          tooltip.html(``).css("visibility", "hidden");
+          d3.select(this).attr("fill", bar_color);
+        });
+      
+      // x-axis
+      svg.append("line")
+        .attr("stroke", "#000000")
+        .attr("stroke-width", 2)
+        .attr("x1", 0)
+        .attr("y1", svg_height)
+        .attr("x2", bar_width * data.length)
+        .attr("y2", svg_height);
+
+      // y-axis
+      svg.append("g") 
+        .attr("transform", "translate(0," + top_offset + ")")
+        .call(d3.axisRight(scale_y_axis));
+
+    }
+
+
+    function initBarMovingChart(svg, data){
+      const max_bar_width = 100;
+      const bar_color = "#111";
+      const top_offset = 10;
+      const bottom_offset = 30;
+      const svg_width = svg.node().getBoundingClientRect().width;
+      let bar_width = Math.round((svg_width - 60) / data.length);
+      if (bar_width > max_bar_width) bar_width = max_bar_width;
+      let spacing = 0.15 * bar_width;
+      let scale = d3.scaleLinear().domain([0, Math.max(...data)]).range([0, svg_height]);
+      let scale_y_axis = d3.scaleLinear().domain([Math.max(...data), 0]).range([0, svg_height]);
+
+
+      //
+      var prevPrevVal = 0;
+      var prevVal = 0;
+      var curVal = 0
+      var _movingSum;
+      var movingAverageLine = d3.line()
+      .x(function(d,i) { return scale(i); })
+      .y(function(d,i) {
+          if (i == 0) {
+              prevPrevVal  = scale_y_axis(d);
+              prevVal = scale_y_axis(d);
+              curVal =  scale_y_axis(d);
+          } else if (i == 1) {
+              prevPrevVal = prevVal;
+              prevVal = curVal;
+              curVal = (prevVal + scale_y_axis(d)) / 2.0;
+          } else {
+              prevPrevVal = prevVal;
+              prevVal = curVal;
+              curVal = (prevPrevVal + prevVal + scale_y_axis(d)) / 3.0;
+          }
+          return curVal;
+      })
+      .curve(d3.curveLinear); 
+      
+      // rect
+      svg.selectAll("g").data(data).enter().append("rect")
+        .attr("fill", bar_color)
+        .attr("x", (d, i) => 30 + bar_width * i)
+        .attr("y", d => svg_height - scale(d))
+        .attr("width", bar_width - spacing)
+        .attr("height", d => scale(d))
+        .on("mouseover", function(d, i) {
+          tooltip.html(`Data: ${i}`).css("visibility", "visible");
+          d3.select(this).attr("fill", '#ff0');
+        })
+        .on("mousemove", function(){
+          tooltip.css({"top": (event.pageY-10)+"px", "left": (event.pageX+10)+"px"});
+        })
+        .on("mouseout", function() {
+          tooltip.html(``).css("visibility", "hidden");
+          d3.select(this).attr("fill", bar_color);
+        });
+      
+      // x-axis
+      svg.append("line")
+        .attr("stroke", "#000000")
+        .attr("stroke-width", 2)
+        .attr("x1", 0)
+        .attr("y1", svg_height)
+        .attr("x2", bar_width * data.length)
+        .attr("y2", svg_height);
+
+      // y-axis
+      svg.append("g") 
+        .attr("transform", "translate(0," + top_offset + ")")
+        .call(d3.axisRight(scale_y_axis));
+
+      // moving avg
+      svg.append("path")
+        .attr("class", "average")
+        .attr("d", movingAverageLine(data));
+    }
+
+    
+    
+  
+  </script>
+
+</body>
+
+</html>
