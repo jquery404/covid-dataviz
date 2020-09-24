@@ -618,20 +618,20 @@
       const top_offset = 10;
       const bottom_offset = 30;
       const svg_width = svg.node().getBoundingClientRect().width;
-      let bar_width = Math.round((svg_width - 60) / data.length);
+      let bar_width = Math.round((svg_width) / data.length); // why not remove 60 here?
       if (bar_width > max_bar_width) bar_width = max_bar_width;
       let spacing = 0.15 * bar_width;
       let scale = d3.scaleLinear().domain([0, Math.max(...data)]).range([0, svg_height]);
       let scale_y_axis = d3.scaleLinear().domain([Math.max(...data), 0]).range([0, svg_height]);
 
 
-      //
+      // curve
       var prevPrevVal = 0;
       var prevVal = 0;
       var curVal = 0
       var _movingSum;
       var movingAverageLine = d3.line()
-      .x(function(d,i) { return scale(i); })
+      .x(function(d,i) { return scale(i*1.5); })  // I dont think I did it properly here
       .y(function(d,i) {
           if (i == 0) {
               prevPrevVal  = scale_y_axis(d);
@@ -653,7 +653,7 @@
       // rect
       svg.selectAll("g").data(data).enter().append("rect")
         .attr("fill", bar_color)
-        .attr("x", (d, i) => 30 + bar_width * i)
+        .attr("x", (d, i) => 0 + bar_width * i) //idk why this one was 30 + bar_width?
         .attr("y", d => svg_height - scale(d))
         .attr("width", bar_width - spacing)
         .attr("height", d => scale(d))
