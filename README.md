@@ -4,7 +4,7 @@
 
 We designed amd implemented a software system for an information visualization application. The information visualization system should allow a user to interactively explore the COVID-19 dataset.
 
-We are team 16. Mohd (Faisal) Zaman (ID) and Kun Huang (300291127)
+We are team 16(SuperUXR) Faisal Zaman (300518055) and Kun Huang (300291127)
 
 ### How to run this project
 
