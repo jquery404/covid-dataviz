@@ -18,11 +18,24 @@
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <style>
-        #map{position: absolute; top: 0; bottom: 0; width: 100%;}
-        .bubble {fill-opacity: .5;stroke: #fff;stroke-width: .5px;}
-        .d3-tooltip{position: absolute;z-index: 10;visibility: hidden;padding:15px;background: rgba(0,0,0,0.6);border-radius: 5px;color: #fff;}
-        .table-responsive{height: 750px;overflow-y: scroll;overflow-x: hidden;}
-        path.average {stroke: darkviolet;stroke-width: 1px;fill: none;}
+      .y-axis line {opacity:.2;}
+      .y-axis path {display:none;}
+      .line {fill: none;stroke-width: 1.5px;opacity:.75;}
+      .overlay {fill: none;pointer-events: all;}
+      .lineHoverText {text-shadow:-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff;}
+      .hoverCircle {opacity: .75;}
+
+      .header {background: #FAF250; color: #24211B;}
+      .header p span{font-weight: 700;}
+      .header_stat{text-align: center;}
+      .header_stat span {font-weight: 700;font-size: 25px;display: block;}
+      .header_stat {text-align: center;font-size: 18px;font-weight: 200;}
+      .colorplate{background: linear-gradient(90deg, #F7F15C 0%, #F0C277 35%, #D76156 100%);width: 100px;height: 10px;}
+      #map{position: absolute; top: 0; bottom: 0; width: 100%;}
+      .bubble {fill-opacity: .7;stroke: #3b3b3b;stroke-width: 0.5px;}
+      .d3-tooltip{position: absolute;z-index: 10;visibility: hidden;padding:15px;background: rgba(0,0,0,0.6);border-radius: 5px;color: #fff;}
+      .table-responsive{height: 750px;overflow-y: scroll;overflow-x: hidden;}
+      path.average {stroke: darkviolet;stroke-width: 1px;fill: none;}
     </style>
 
 </head>
@@ -40,103 +53,66 @@
       <!-- Main Content -->
       <div id="content">
 
-
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+          <div class="header d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0">Coronavirus<p><span>COVID-19</span> TRACKER</p></h1>
+            <div class="h5 mb-0 g_confirmed header_stat">Confirmed 🌐<span>0</span></div>
+            <div class="h5 mb-0 g_recovered header_stat">Recovered 🌐<span>0</span></div>
+            <div class="h5 mb-0 g_deaths header_stat">Deaths 🌐<span>0</span></div>
+            <div class="h5 mb-0 g_morality header_stat">Mortality🌐(%)<span>0</span></div>
           </div>
 
-          <!-- Content Row -->
-          <div class="row">
+          <div class="row mb-3">
+            <div class="col-xl-4">
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Confirmed</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800 confirmed">0</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
+              <div class="dropdown">
+                <div class="form-group">
+                  <select class="dropdown-country form-control"></select>
                 </div>
               </div>
+              
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Recovered</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800 recovered">0</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Deaths</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 deaths">0</div>
-                        </div>
-                        <div class="col">
-                          <div class="progress progress-sm mr-2">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Mortality</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800 morality">18</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-
-          <!-- Content Row -->
 
           <div class="row">
 
             <!-- Area Chart -->
-            <div class="col-xl-4 col-lg-7">
+            <div class="col-xl-2 col-lg-12 justify-content-center">
+              
+              <div class="header d-sm-flex flex-column align-items-center justify-content-between">
+                <div class="h5 my-4 confirmed header_stat">Confirmed<span>0</span></div>
+                <div class="h5 my-4 recovered header_stat">Recovered<span>0</span></div>
+                <div class="h5 my-4 deaths header_stat">Deaths<span>0</span></div>
+                <div class="h5 my-4 morality header_stat">Mortality(%)<span>0</span></div>
+              </div>
+
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-xl-10 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">World Map</h6>
+                  <span class="colorplate"></span>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-area">
+                    <div id="map"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-6 col-lg-7">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -151,110 +127,35 @@
               </div>
             </div>
 
-            <!-- Pie Chart -->
-            <div class="col-xl-8 col-lg-5">
+            <div class="col-xl-6 col-lg-7">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">World Map</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Cumulative Cases</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="chart-area">
-                    <div id="map"></div>
+                    <div id="chart_cumulative_cases"></div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-xl-3 col-lg-7">
+            <div class="col-xl-12 col-lg-7">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Global Cases</h6>
-                  <h5 class="global_total_cases m-0 font-weight-bold text-primary"></h5>
+                  <h6 class="m-0 font-weight-bold text-primary">Flattened Curve</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                        <th>Country/Region</th>
-                        <th>Confirmed</th>
-                        <th>Ratio</th>
-                        </tr>
-                    </thead>
-                    <tbody class="globalCasesTable"></tbody>
-                    </table>
-                </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-6 col-lg-7">
-              <div class="row">
-
-                <div class="col-xl-12 col-lg-7">
-                  <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold text-primary">Cumulative Cases</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                      <div class="chart-area">
-                        <div id="chart_cumulative_cases"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-xl-12 col-lg-7">
-                  <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold text-primary">Flattened Curve</h6>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                      <div class="chart-area">
-                        <div id="chart_moving_new_cases"></div>
-                      </div>
-                    </div>
+                  <div class="chart-area">
+                    <div id="chart_moving_new_cases"></div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="col-xl-3 col-lg-7">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Global Recovered</h6>
-                  <h5 class="global_total_recovered m-0 font-weight-bold text-primary"></h5>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                        <th>Country/Region</th>
-                        <th>Recovered</th>
-                        <th>Ratio</th>
-                        </tr>
-                    </thead>
-                    <tbody class="globalRecoveredTable"></tbody>
-                    </table>
-                </div>
-                </div>
-              </div>
-            </div>
-
-
           </div>
 
           <!-- Content Row -->
@@ -262,27 +163,27 @@
             <div class="col-xl-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Global Table</h6>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 0;">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                             <th>Country/Region</th>
-                            <th>State</th>
                             <th>Confirmed</th>
                             <th>Recovered</th>
                             <th>Deaths</th>
+                            <th></th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                             <th>Country/Region</th>
-                            <th>State</th>
                             <th>Confirmed</th>
                             <th>Recovered</th>
                             <th>Deaths</th>
+                            <th></th>
                             </tr>
                         </tfoot>
                         <tbody class="dataTable"></tbody>
@@ -292,6 +193,13 @@
                 </div>
             </div>
 
+          </div>
+
+          <!-- Page Heading -->
+          <div class="header d-sm-flex align-items-center justify-content-between mb-4">
+            <p class="mb-0 p-2" style="font-size: 14px;">This web-app relies upon publicly available data from multiple sources. I hereby disclaimed any and all representation and warranties with respect to this web-app. Cheers!</p></h1>
+            
+            <div class="mb-0" style="text-align: right;"><img src="footer.png" width="80%"/></div>
           </div>
 
         </div>
@@ -323,53 +231,37 @@
 
   <div class="d3-tooltip">a simple tooltip</div>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="js/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="js/sb-admin-2.min.js"></script>
   <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
-  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
   
   <script>
-    let maxDate = '2020-09-19';
+    let maxDate = '2020-09-27';
     let data = [], sortData = [];
     let labels = [];
     let tooltip = $('.d3-tooltip');
     let currentCountry = 'New Zealand';
     let dates = [], deaths = [], recovered = [], totalCases = [];
     let globalDeath = 0, globalRecovered = 0, globalTotalCases = 0;
-    let newCases = [];
+    let newCases = [], cumData= [], newCasesBar = [];
     mapboxgl.accessToken = 'pk.eyJ1IjoianF1ZXJ5NDA0IiwiYSI6ImNpbDQwNHV0YjNzazB1eWtzYWRleXVmOGIifQ.HrzVBbMbMz7Zbxuoie03BQ';
-    var map = new mapboxgl.Map({
+    let map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-74.5, 40], 
-        zoom: 3
+        center: [13.180161, 32.885353], 
+        zoom: 1
     });
+
+    $(function () {$('[data-toggle="tooltip"]').tooltip()})
     
-    const svg_height = 300;
-    const svgCum = d3.select("#chart_cumulative_cases").append("svg").attr("width", '100%').attr("height", svg_height);
-    const svgNewCases = d3.select("#chart_new_cases").append("svg").attr("width", '100%').attr("height", svg_height);
-    const svgMovingNewCases = d3.select("#chart_moving_new_cases").append("svg").attr("width", '100%').attr("height", svg_height);
-    
+    let svg_height = 300;
+    let svgCum = d3.select("#chart_cumulative_cases").append("svg").attr("width", '100%').attr("height", svg_height);
+    let svgNewCases = d3.select("#chart_new_cases").append("svg").attr("width", '100%').attr("height", svg_height);
+    let svgMovingNewCases = d3.select("#chart_moving_new_cases").append("svg").attr("width", '100%').attr("height", svg_height);
 
     d3.csv("time-series-19-covid-combined.csv").then(function(data) {
       let confirmData = [];
@@ -388,18 +280,23 @@
               countryData[data[i]['Country/Region']] = {
                 recovered: countryData[data[i]['Country/Region']].recovered + parseInt(data[i].Recovered),
                 death: countryData[data[i]['Country/Region']].death + parseInt(data[i].Deaths),
-                confirmed: countryData[data[i]['Country/Region']].confirmed + parseInt(data[i].Confirmed)
+                confirmed: countryData[data[i]['Country/Region']].confirmed + parseInt(data[i].Confirmed),
+                lat: data[i].Lat,
+                lng: data[i].Long
               };
             }else{
               countryData[data[i]['Country/Region']] = {
                 recovered: parseInt(data[i].Recovered),
                 death: parseInt(data[i].Deaths),
-                confirmed: parseInt(data[i].Confirmed)
+                confirmed: parseInt(data[i].Confirmed),
+                lat: data[i].Lat,
+                lng: data[i].Long
               };
             }
             
             sortData.push({
               country: data[i]['Country/Region'],
+              state: data[i]['Province/State'],
               confirmed: data[i].Confirmed,
               deaths: data[i].Deaths,
               recovered: data[i].Recovered,
@@ -409,17 +306,11 @@
           }
 
           if(data[i]['Country/Region'] == currentCountry){
-              $('.recovered').html(parseInt(data[i].Recovered));
-              $('.confirmed').html(parseInt(data[i].Confirmed));
-              $('.deaths').html(parseInt(data[i].Deaths));
-              $('.morality').html((parseInt(data[i].Deaths)/parseInt(data[i].Confirmed)).toFixed(2));
-              $('.dataTable').append(`<tr>
-                <td>${data[i]['Country/Region']}</td>
-                <td>${data[i]['Province/State']}</td>
-                <td>${data[i]['Confirmed']}</td>
-                <td>${data[i]['Recovered']}</td>
-                <td>${data[i]['Deaths']}</td>
-              </tr>`);
+              $('.recovered span').html(numberWithCommas(parseInt(data[i].Recovered)));
+              $('.confirmed span').html(numberWithCommas(parseInt(data[i].Confirmed)));
+              $('.deaths span').html(numberWithCommas(parseInt(data[i].Deaths)));
+              $('.morality span').html((parseInt(data[i].Deaths)/parseInt(data[i].Confirmed)).toFixed(2));
+              
               deaths.push(parseInt(data[i].Deaths));
               recovered.push(parseInt(data[i].Recovered));
               totalCases.push(parseInt(data[i].Confirmed));
@@ -427,12 +318,22 @@
           }
       }
 
-      $('.global_total_cases').html(globalTotalCases);
-      $('.global_total_recovered').html(globalRecovered);
+      $('.g_recovered span').html(numberWithCommas(globalRecovered));
+      $('.g_confirmed span').html(numberWithCommas(globalTotalCases));
+      $('.g_deaths span').html(numberWithCommas(globalDeath));
+      $('.g_morality span').html((parseInt(globalDeath)/parseInt(globalTotalCases)).toFixed(2));
       
       for (const country in countryData) {
         let recRatio = Math.floor((countryData[country].recovered/globalRecovered)*100);
         let deathRatio = Math.floor((countryData[country].death/globalDeath)*100);
+        let confRatio = Math.floor((countryData[country].confirmed/globalTotalCases)*100);
+        let totalRatio = recRatio+deathRatio+confRatio;
+
+        
+        if(currentCountry == country)
+          $('.dropdown-country').append('<option selected value="'+ country +'">' + country+'</option>');
+        else $('.dropdown-country').append('<option value="'+ country +'">' + country+'</option>');
+
         $('.globalRecoveredTable').append(`<tr>
           <td>${country}</td>
           <td>${countryData[country].recovered}</td>
@@ -454,24 +355,51 @@
             </div>
           </td>
         </tr>`);
+
+        $('.dataTable').append(`<tr>
+          <td>${country}</td>
+          <td>${countryData[country].confirmed}</td>
+          <td>${countryData[country].recovered}</td>
+          <td>${countryData[country].death}</td>
+          <td style="width:20%">
+            <div class="progress">
+              <div class="progress-bar bg-danger" role="progressbar" data-toggle="tooltip" data-placement="right" title="Morality ${deathRatio}%" style="width:${deathRatio}%" aria-valuenow="${deathRatio}" aria-valuemin="0" aria-valuemax="${totalRatio}"></div>
+              <div class="progress-bar bg-success" role="progressbar" data-toggle="tooltip" data-placement="right" title="Recovery ${recRatio}%" style="width:${recRatio}%" aria-valuenow="${recRatio}" aria-valuemin="0" aria-valuemax="${totalRatio}"></div>
+              <div class="progress-bar bg-warning" role="progressbar" data-toggle="tooltip" data-placement="right" title="Newcases ${confRatio}%" style="width:${confRatio}%" aria-valuenow="${confRatio}" aria-valuemin="0" aria-valuemax="${totalRatio}"></div>
+            </div>
+          </td>
+        </tr>`);
       }
+
       
-
-      for(var i=0; i< sortData.length; i++){
-        map_data.push([sortData[i].long, sortData[i].lat, sortData[i].deaths]);
+      for (const country in countryData) {
+        map_data.push([countryData[country].lng, countryData[country].lat, countryData[country].confirmed, country]);
       }
 
-      for(var i=190; i>0; i--)
+      for(var i=190; i>0; i--){
+        cumData.push({
+          date: dates[dates.length-i],
+          confirmed: totalCases[totalCases.length-i],
+          recovered: recovered[recovered.length-i],
+          deaths: deaths[deaths.length-i],
+        });
         confirmData.push({
           date: d3.timeParse("%Y-%m-%d")(dates[dates.length-i]),
           data: totalCases[totalCases.length-i]
         });
+        
+      }
+      
 
       for(var i=0; i<190; i++){
         newCases.push(Math.abs(totalCases[i+1] - totalCases[i]));
+        newCasesBar.push({
+          date: dates[i],
+          value: Math.abs(totalCases[i+1] - totalCases[i])
+        });
       }
-      var radius = d3.scaleSqrt().domain([0, 1e6]).range([0, 80]);
-      var color = d3.scaleOrdinal().domain([0, 1e6]).range([ "#402D54", "#D18975", "#8FD175"])
+      var radius = d3.scaleSqrt().domain([0, 1e6]).range([0, 15]);
+      var color = d3.scaleOrdinal().domain([0, 1e6]).range(["#D76156", "#F7F15C", "#F0C277"])
 
       var map_svg = d3.select(container).append("svg")
         .attr("width", "100%")
@@ -485,7 +413,7 @@
         .attr("stroke", function(d){ return color(d[2]) })
         .attr("r", function(d) { return radius(d[2]); })
         .on("mouseover", function(d, i) {
-          tooltip.html(`Data: ${i[2]}`).css("visibility", "visible");
+          tooltip.html(`${d[3]}: ${d[2]}`).css("visibility", "visible");
           d3.select(this).attr("fill", '#ff0');
         })
         .on("mousemove", function(){
@@ -493,7 +421,7 @@
         })
         .on("mouseout", function() {
           tooltip.html(``).css("visibility", "hidden");
-          d3.select(this).attr("fill", bar_color);
+          d3.select(this).attr("fill", '#ddd');
         });
       
       function project(d) {
@@ -503,15 +431,46 @@
           dots.attr("cx", function(d) {return project(d).x;})
               .attr("cy", function(d) {return project(d).y;});
       }
+      
       map.on("viewreset", render);
       map.on("move", render);
       map.on("moveend", render);
       render();
 
-      initBarChart(svgNewCases, newCases);
-      initLineChart(svgCum, confirmData);
-      initBarMovingChart(svgMovingNewCases, newCases);
+      $('.dropdown-country').change(function(){
+        currentCountry = this.value;
+        flyMe(countryData[this.value].lat, countryData[this.value].lng);
+        deaths = [], recovered = [], totalCases = [], dates = [], newCases=[], newCasesBar = [];
         
+        for(var i=0; i< data.length; i++){
+          if(data[i]['Country/Region'] == currentCountry){
+              $('.recovered span').html(numberWithCommas(parseInt(data[i].Recovered)));
+              $('.confirmed span').html(numberWithCommas(parseInt(data[i].Confirmed)));
+              $('.deaths span').html(numberWithCommas(parseInt(data[i].Deaths)));
+              $('.morality span').html((parseInt(data[i].Deaths)/parseInt(data[i].Confirmed)).toFixed(2));
+                
+              deaths.push(parseInt(data[i].Deaths));
+              recovered.push(parseInt(data[i].Recovered));
+              totalCases.push(parseInt(data[i].Confirmed));
+              dates.push(data[i].Date);
+          }
+        }
+
+        for(var i=0; i<190; i++){
+          newCases.push(Math.abs(totalCases[i+1] - totalCases[i]));
+          newCasesBar.push({
+            date: dates[i],
+            value: Math.abs(totalCases[i+1] - totalCases[i])
+          });
+        }
+
+        d3.selectAll("#chart_new_cases svg> *").remove();
+        initBarChart(svgNewCases, newCasesBar);
+      });
+
+      initBarChart(svgNewCases, newCasesBar);
+      initBarMovingChart(svgMovingNewCases, newCases);
+      cumulativeChart(cumData);
     });
 
     function initLineChart(svg, data){
@@ -562,8 +521,9 @@
         });
     }
 
-
     function initBarChart(svg, data){
+      let max_bar_height = 0;
+      for(const d in data) if(max_bar_height < data[d].value) max_bar_height = data[d].value;
       const max_bar_width = 100;
       const bar_color = "#111";
       const top_offset = 10;
@@ -572,19 +532,19 @@
       let bar_width = Math.round((svg_width - 60) / data.length);
       if (bar_width > max_bar_width) bar_width = max_bar_width;
       let spacing = 0.15 * bar_width;
-      let scale = d3.scaleLinear().domain([0, Math.max(...data)]).range([0, svg_height]);
-      let scale_y_axis = d3.scaleLinear().domain([Math.max(...data), 0]).range([0, svg_height]);
+      let scale = d3.scaleLinear().domain([0, max_bar_height]).range([0, svg_height]);
+      let scale_y_axis = d3.scaleLinear().domain([max_bar_height, 0]).range([0, svg_height]);
 
       
       // rect
       svg.selectAll("g").data(data).enter().append("rect")
         .attr("fill", bar_color)
         .attr("x", (d, i) => 30 + bar_width * i)
-        .attr("y", d => svg_height - scale(d))
+        .attr("y", d => svg_height - scale(d.value))
         .attr("width", bar_width - spacing)
-        .attr("height", d => scale(d))
+        .attr("height", d => scale(d.value))
         .on("mouseover", function(d, i) {
-          tooltip.html(`Data: ${i}`).css("visibility", "visible");
+          tooltip.html(`${d.date} : ${d.value}`).css("visibility", "visible");
           d3.select(this).attr("fill", '#ff0');
         })
         .on("mousemove", function(){
@@ -604,6 +564,11 @@
         .attr("x2", bar_width * data.length)
         .attr("y2", svg_height);
 
+      // svg.append("g")
+      //   .attr("class","x-axis")
+      //   .attr("transform", "translate(0," + (250) + ")")
+      //   .call(d3.axisBottom(scale_time).tickFormat(d3.timeFormat("%b")));
+
       // y-axis
       svg.append("g") 
         .attr("transform", "translate(0," + top_offset + ")")
@@ -611,27 +576,26 @@
 
     }
 
-
     function initBarMovingChart(svg, data){
       const max_bar_width = 100;
       const bar_color = "#111";
       const top_offset = 10;
       const bottom_offset = 30;
       const svg_width = svg.node().getBoundingClientRect().width;
-      let bar_width = Math.round((svg_width - 60) / data.length);
+      let bar_width = Math.round((svg_width) / data.length);
       if (bar_width > max_bar_width) bar_width = max_bar_width;
       let spacing = 0.15 * bar_width;
       let scale = d3.scaleLinear().domain([0, Math.max(...data)]).range([0, svg_height]);
       let scale_y_axis = d3.scaleLinear().domain([Math.max(...data), 0]).range([0, svg_height]);
 
 
-      //
+      // curve
       var prevPrevVal = 0;
       var prevVal = 0;
       var curVal = 0
       var _movingSum;
       var movingAverageLine = d3.line()
-      .x(function(d,i) { return scale(i); })
+      .x(function(d,i) { return scale(i*1.5); })
       .y(function(d,i) {
           if (i == 0) {
               prevPrevVal  = scale_y_axis(d);
@@ -653,7 +617,7 @@
       // rect
       svg.selectAll("g").data(data).enter().append("rect")
         .attr("fill", bar_color)
-        .attr("x", (d, i) => 30 + bar_width * i)
+        .attr("x", (d, i) => 0 + bar_width * i)
         .attr("y", d => svg_height - scale(d))
         .attr("width", bar_width - spacing)
         .attr("height", d => scale(d))
@@ -689,9 +653,152 @@
         .attr("d", movingAverageLine(data));
     }
 
+    function cumulativeChart(data) {
+
+      var parseTime = d3.timeParse("%Y-%m-%d"),
+      formatDate = d3.timeFormat("%Y-%m-%d"),
+      bisectDate = d3.bisector(d => d.date).left,
+      formatValue = d3.format(",.0f");
+
+      data.forEach(function(d) {d.date = parseTime(d.date); return d;})
+
+      var margin = {top: 15, right: 35, bottom: 15, left: 35},
+      width = svgCum.node().getBoundingClientRect().width,
+      height = 300;
+
+      var x = d3.scaleTime().rangeRound([margin.left, width - margin.right]).domain(d3.extent(data, d => d.date))
+      var y = d3.scaleLinear().rangeRound([height - margin.bottom, margin.top]);
+      var z = d3.scaleOrdinal(d3.schemeSet1);
+      var line = d3.line().curve(d3.curveCardinal).x(d => x(d.date)).y(d => y(d.degrees));
+
+      svgCum.append("g")
+      .attr("class","x-axis")
+      .attr("transform", "translate(0," + (height - margin.bottom) + ")")
+      .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b")));
+
+      svgCum.append("g")
+      .attr("class", "y-axis")
+      .attr("transform", "translate(" + margin.left + ",0)");
+
+      var focus = svgCum.append("g").attr("class", "focus").style("display", "none");
+
+      focus.append("line").attr("class", "lineHover")
+      .style("stroke", "#999")
+      .attr("stroke-width", 1)
+      .style("shape-rendering", "crispEdges")
+      .style("opacity", 0.5)
+      .attr("y1", -height)
+      .attr("y2",0);
+
+      focus.append("text").attr("class", "lineHoverDate").attr("text-anchor", "middle").attr("font-size", 12);
+
+      var overlay = svgCum.append("rect")
+      .attr("class", "overlay")
+      .attr("x", margin.left)
+      .attr("width", width - margin.right - margin.left)
+      .attr("height", height)
+
+      update(1, 0);
+
+      function update(input, speed) {
+        var copy = ["confirmed", "recovered", "deaths"];
+        var cities = copy.map(function(id) {
+          return {
+            id: id,
+            values: data.map(d => {return {date: d.date, degrees: +d[id]}})
+          };
+        });
+
+        y.domain([
+          d3.min(cities, d => d3.min(d.values, c => c.degrees)),
+          d3.max(cities, d => d3.max(d.values, c => c.degrees))
+        ]).nice();
+
+        svgCum.selectAll(".y-axis").transition().duration(speed).call(d3.axisLeft(y).tickSize(-width + margin.right + margin.left))
+
+        var city = svgCum.selectAll(".cities").data(cities);
+        city.exit().remove();
+        city.enter().insert("g", ".focus").append("path")
+          .attr("class", "line cities")
+          .style("stroke", d => z(d.id))
+          .merge(city)
+          .transition().duration(speed)
+          .attr("d", d => line(d.values))
+
+        tooltip(copy);
+      }
+
+      function tooltip(copy) {
+        var labels = focus.selectAll(".lineHoverText").data(copy)
+
+        labels.enter().append("text")
+        .attr("class", "lineHoverText")
+        .style("fill", d => z(d))
+        .attr("text-anchor", "start")
+        .attr("font-size",12)
+        .attr("dy", (_, i) => 1 + i * 2 + "em")
+        .merge(labels);
+
+        var circles = focus.selectAll(".hoverCircle").data(copy)
+
+        circles.enter().append("circle")
+        .attr("class", "hoverCircle")
+        .style("fill", d => z(d))
+        .attr("r", 2.5)
+        .merge(circles);
+
+        svgCum.selectAll(".overlay")
+        .on("mouseover", function() { focus.style("display", null); })
+        .on("mouseout", function() { focus.style("display", "none"); })
+        .on("mousemove", mousemove );
+
+        function mousemove() {
+          var x0 = x.invert(d3.mouse(this)[0]),
+          i = bisectDate(data, x0, 1),
+          d0 = data[i - 1],
+          d1 = data[i],
+          d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+
+          focus.select(".lineHover").attr("transform", "translate(" + x(d.date) + "," + height + ")");
+
+          focus.select(".lineHoverDate").attr("transform", "translate(" + x(d.date) + "," + (height + margin.bottom) + ")")
+          .text(formatDate(d.date));
+
+          focus.selectAll(".hoverCircle")
+          .attr("cy", e => y(d[e]))
+          .attr("cx", x(d.date));
+
+          focus.selectAll(".lineHoverText")
+          .attr("transform", 
+            "translate(" + (x(d.date)) + "," + height / 2.5 + ")")
+          .text(e => e + " " + formatValue(d[e]));
+
+          x(d.date) > (width - width / 4) 
+          ? focus.selectAll("text.lineHoverText")
+            .attr("text-anchor", "end")
+            .attr("dx", -10)
+          : focus.selectAll("text.lineHoverText")
+            .attr("text-anchor", "start")
+            .attr("dx", 10)
+        }
+      }
+
+    }
+
+    function flyMe(lat, lng){
+      map.flyTo({center: [
+        lng,
+        lat
+      ],
+      essential: true 
+      });
+    }
     
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     
-  
+
   </script>
 
 </body>
