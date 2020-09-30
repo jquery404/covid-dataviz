@@ -1,3 +1,10 @@
+<!-- 
+-- COVID-19 Data Visualization 
+-- @version 1.0.0
+-- @author Faisal Zaman <300518055>
+-- @author Kun Huang <300291127>
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,17 +64,18 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="header d-sm-flex align-items-center justify-content-between mb-4">
+          <div class="header fixed-top d-sm-flex align-items-center justify-content-between mb-4 px-3">
             <h1 class="h3 mb-0">Coronavirus<p><span>COVID-19</span> TRACKER</p></h1>
+            <h1 class="h5 mb-0"><p>Global Situation:</p></h5>
             <div class="h5 mb-0 g_confirmed header_stat">Confirmed 🌐<span>0</span></div>
             <div class="h5 mb-0 g_recovered header_stat">Recovered 🌐<span>0</span></div>
             <div class="h5 mb-0 g_deaths header_stat">Deaths 🌐<span>0</span></div>
             <div class="h5 mb-0 g_morality header_stat">Mortality🌐(%)<span>0</span></div>
           </div>
 
-          <div class="row mb-3">
+          <div class="row mb-3" style="margin-top: 100px;">
             <div class="col-xl-4">
-
+              <!-- select display country, default: NZ -->
               <div class="dropdown">
                 <div class="form-group">
                   <select class="dropdown-country form-control"></select>
@@ -80,27 +88,28 @@
 
           <div class="row">
 
-            <!-- Area Chart -->
-            <div class="col-xl-2 col-lg-12 justify-content-center">
+            <!-- Selected country detail in numbers -->
+            <div class="col-xl-2 col-lg-2 justify-content-center">
               
               <div class="header d-sm-flex flex-column align-items-center justify-content-between">
-                <div class="h5 my-4 confirmed header_stat">Confirmed<span>0</span></div>
-                <div class="h5 my-4 recovered header_stat">Recovered<span>0</span></div>
-                <div class="h5 my-4 deaths header_stat">Deaths<span>0</span></div>
-                <div class="h5 my-4 morality header_stat">Mortality(%)<span>0</span></div>
+                <div class="h5 my-3 currentCountry header_stat"><span></span>Latest Situation</div>
+                <div class="h5 my-3 confirmed header_stat">Confirmed<span>0</span></div>
+                <div class="h5 my-3 recovered header_stat">Recovered<span>0</span></div>
+                <div class="h5 my-3 deaths header_stat">Deaths<span>0</span></div>
+                <div class="h5 my-3 morality header_stat">Mortality(%)<span>0</span></div>
               </div>
 
             </div>
 
-            <!-- Pie Chart -->
-            <div class="col-xl-10 col-lg-5">
+            <!-- World map -->
+            <div class="col-xl-10 col-lg-10">
               <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
+                <!-- Card Header -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">World Map</h6>
                   <span class="colorplate"></span> <span style="position: absolute;font-weight: 700;font-size: 10px;color: #111;top:4px;right: 20px;">&lt; 50,000 &dash; &gt; 1,000,000</span>
                 </div>
-                <!-- Card Body -->
+                <!-- Card Body Map -->
                 <div class="card-body">
                   <div class="chart-area">
                     <div id="map"></div>
@@ -111,12 +120,12 @@
           </div>
 
           <div class="row">
-            <!-- Area Chart -->
+            <!-- Daily New Cases bar Chart -->
             <div class="col-xl-6 col-lg-7">
               <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
+                <!-- Card Header -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Daily New Cases</h6>
+                  <h6 class="m-0 font-weight-bold text-primary currentCountry"><span></span> Daily New Cases</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -127,11 +136,12 @@
               </div>
             </div>
 
+            <!-- Cumulative Cases line graph -->
             <div class="col-xl-6 col-lg-7">
               <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
+                <!-- Card Header -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Cumulative Cases</h6>
+                  <h6 class="m-0 font-weight-bold text-primary currentCountry"><span></span> Cumulative Cases</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -142,11 +152,12 @@
               </div>
             </div>
 
+            <!-- Global Situation bar chart -->
             <div class="col-xl-12 col-lg-7">
               <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
+                <!-- Card Header -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Flattened Curve</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Global Situation (Daily)</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -158,25 +169,23 @@
             </div>
           </div>
 
-          <!-- Content Row -->
+          <!-- Global Situation Table -->
           <div class="row">
             <div class="col-xl-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Global Table</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Situation by Country, Territory & Area</h6>
                     </div>
                     <div class="card-body" style="padding: 0;">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
-                            <tr>
                             <th>Country/Region ⇅</th>
                             <th>Confirmed ⇅</th>
-                            <th></th>
+                            <th>Cumulative Total</th>
                             <th>Recovered ⇅</th>
                             <th>Deaths ⇅</th>
-                            <th></th>
-                            </tr>
+                            <th>Ratio (hover to see)</th>
                         </thead>
                         <tbody class="dataTable"></tbody>
                         </table>
@@ -187,7 +196,7 @@
 
           </div>
 
-          <!-- Page Heading -->
+          <!-- Page header -->
           <div class="header d-sm-flex align-items-center justify-content-between mb-4">
             <p class="mb-0 p-2" style="font-size: 14px;">This web-app relies upon publicly available data from multiple sources. I hereby disclaimed any and all representation and warranties with respect to this web-app. Cheers!</p></h1>
             
@@ -234,10 +243,10 @@
   <script src="https://d3js.org/d3.v5.min.js"></script>
   
   <script>
-    let maxDate = '2020-09-27';
+    let maxDate = '2020-09-27'; //last date of the dataset
     let data = [], sortData = [], labels = [];
     let tooltip = $('.d3-tooltip');
-    let currentCountry = 'New Zealand';
+    let currentCountry = 'New Zealand'; //default selected country
     let dates = [], deaths = [], recovered = [], totalCases = [];
     let globalDeath = 0, globalRecovered = 0, globalTotalCases = 0, tglobalConf= 0;
     let maxConfCase = 0;
@@ -251,13 +260,14 @@
         zoom: 1
     });
 
-    $(function () {$('[data-toggle="tooltip"]').tooltip();})
+    $(function () {$('[data-toggle="tooltip"]').tooltip();})  //display the tooltips when the mouse is hovering
     
-    let svg_height = 330;
+    let svg_height = 330; //svg height
     let svgCum = d3.select("#chart_cumulative_cases").append("svg").attr("width", '100%').attr("height", svg_height);
     let svgNewCases = d3.select("#chart_new_cases").append("svg").attr("width", '100%').attr("height", svg_height);
     let svgMovingNewCases = d3.select("#chart_moving_new_cases").append("svg").attr("width", '100%').attr("height", svg_height);
 
+    //loading data
     d3.csv("time-series-19-covid-combined.csv").then(function(data) {
       let confirmData = [];
       let container = map.getCanvasContainer();
@@ -265,7 +275,7 @@
       let countryData = [];
 
       for(var i=0; i< data.length; i++){
-
+        //get global cumulative cases
           if(globalCumCases[data[i].Date]){
             globalCumCases[data[i].Date] = {
               date: data[i].Date, 
@@ -277,12 +287,12 @@
               value: parseInt(data[i].Confirmed)
             };
           }
-          
+          //get global recovered number
           if(data[i].Date == maxDate){
             if(parseInt(data[i].Recovered)) globalRecovered += parseInt(data[i].Recovered);
             globalDeath += parseInt(data[i].Deaths);
             globalTotalCases += parseInt(data[i].Confirmed);
-
+            //get details for every country (merge all the province to one country)
             if(countryData[data[i]['Country/Region']]){
               countryData[data[i]['Country/Region']] = {
                 recovered: countryData[data[i]['Country/Region']].recovered + parseInt(data[i].Recovered),
@@ -303,6 +313,7 @@
             if (maxConfCase < countryData[data[i]['Country/Region']].confirmed) 
               maxConfCase = countryData[data[i]['Country/Region']].confirmed;
             
+            //final data
             sortData.push({
               country: data[i]['Country/Region'],
               state: data[i]['Province/State'],
@@ -313,8 +324,10 @@
               lat: data[i].Lat
             })
           }
-
+          
+          //current country is NZ, display all relevant data with NZ as default
           if(data[i]['Country/Region'] == currentCountry){
+              $('.currentCountry span').html(data[i]['Country/Region']);
               $('.recovered span').html(numberWithCommas(parseInt(data[i].Recovered)));
               $('.confirmed span').html(numberWithCommas(parseInt(data[i].Confirmed)));
               $('.deaths span').html(numberWithCommas(parseInt(data[i].Deaths)));
@@ -326,21 +339,24 @@
               dates.push(data[i].Date);
           }
       }
-
+      //display all global data
       $('.g_recovered span').html(numberWithCommas(globalRecovered));
       $('.g_confirmed span').html(numberWithCommas(globalTotalCases));
       $('.g_deaths span').html(numberWithCommas(globalDeath));
       $('.g_morality span').html((parseInt(globalDeath)/parseInt(globalTotalCases)).toFixed(2));
       
       for (const country in countryData) {
+        //handle missing value
+        countryData['Canada'].recovered = 0;
+        //calculate cumulative, mortality, recovery, new cases ratio
         let recRatio = Math.floor((countryData[country].recovered/globalRecovered)*100);
         let deathRatio = Math.floor((countryData[country].death/globalDeath)*100);
         let confRatio = Math.floor((countryData[country].confirmed/globalTotalCases)*100);
         let totalRatio = recRatio+deathRatio+confRatio;
-
+        //dropdown country selection
         if(currentCountry == country) $('.dropdown-country').append('<option selected value="'+ country +'">' + country+'</option>');
         else $('.dropdown-country').append('<option value="'+ country +'">' + country+'</option>');
-
+        //recovered data in the table
         $('.globalRecoveredTable').append(`<tr>
           <td>${country}</td>
           <td>${countryData[country].recovered}</td>
@@ -352,6 +368,7 @@
           </td>
         </tr>`);
 
+        //comfirmed data in the table
         $('.globalCasesTable').append(`<tr>
           <td>${country}</td>
           <td>${countryData[country].confirmed}</td>
@@ -363,6 +380,7 @@
           </td>
         </tr>`);
 
+        //add progress bars in the global table: cummulative, mortality/recovery/new cases
         $('.dataTable').append(`<tr>
           <td>${country}</td>
           <td>${numberWithCommas(countryData[country].confirmed)}</td>
@@ -371,7 +389,7 @@
           </td>
           <td>${numberWithCommas(countryData[country].recovered)}</td>
           <td>${numberWithCommas(countryData[country].death)}</td>
-          <td style="width:10%">
+          <td style="width:15%">
             <div class="progress">
               <div class="progress-bar bg-danger" role="progressbar" data-toggle="tooltip" data-placement="right" title="Morality ${deathRatio}%" style="width:${deathRatio}%" aria-valuenow="${deathRatio}" aria-valuemin="0" aria-valuemax="${totalRatio}"></div>
               <div class="progress-bar bg-success" role="progressbar" data-toggle="tooltip" data-placement="right" title="Recovery ${recRatio}%" style="width:${recRatio}%" aria-valuenow="${recRatio}" aria-valuemin="0" aria-valuemax="${totalRatio}"></div>
@@ -380,10 +398,11 @@
           </td>
         </tr>`);
 
-        map_data.push([countryData[country].lng, countryData[country].lat, countryData[country].confirmed, country]);
+        map_data.push([countryData[country].lng, countryData[country].lat, countryData[country].confirmed, country, countryData[country].death]);
       }
       $('#dataTable').DataTable({paging: false, searching: false, "order": [[ 1, 'dsc' ]]});
 
+      //date, confirm, recovered, death data in 190 days
       for(var i=190; i>0; i--){
         cumData.push({
           date: dates[dates.length-i],
@@ -395,41 +414,40 @@
           date: d3.timeParse("%Y-%m-%d")(dates[dates.length-i]),
           data: totalCases[totalCases.length-i]
         });
-        
       }
-
+      //new cases in each 190 days
       for(var i=0; i<190; i++){
-        
         newCases.push(Math.abs(totalCases[i+1] - totalCases[i]));
         newCasesBar.push({
           date: dates[i],
           value: Math.abs(totalCases[i+1] - totalCases[i])
         });
       }
-
+      //each day in global cumulative
       for(tdata in globalCumCases){
         tglobalCumCases.push({
           date: globalCumCases[tdata].date,
           value: globalCumCases[tdata].value
         })
       }
-
-      var radius = d3.scaleSqrt().domain([0, 1e6]).range([0, 15]);
+      //radius in the map
+      var radius = d3.scaleSqrt().domain([0, 1e6]).range([0, 20]);
+      //circle's color in the map
       var color = d3.scaleOrdinal().domain([0, 1e6]).range(["#D76156", "#D17E51", "#F0C277", "#FDD197", "#F0A477", "#F5D258", "#F7F15C"])
-
+      //map container
       var map_svg = d3.select(container).append("svg")
         .attr("width", "100%")
         .attr("height", "500")
         .style("position", "absolute")
         .style("z-index", 2);
-
+      //circle style
       var dots = map_svg.selectAll("circle").data(map_data).enter().append("circle")
         .attr("class", "bubble")
         .style("fill", function(d){ return color(d[2]) })
         .attr("stroke", function(d){ return color(d[2]) })
         .attr("r", function(d) { return radius(d[2]); })
         .on("mouseover", function(d, i) {
-          tooltip.html(`${d[3]}: ${numberWithCommas(d[2])}`).css("visibility", "visible");
+          tooltip.html(`${d[3]} <br/>Confirmed: ${numberWithCommas(d[2])}<br/>Death: ${numberWithCommas(d[4])}`).css("visibility", "visible");
           d3.select(this).attr("fill", '#ff0');
         })
         .on("mousemove", function(){
@@ -439,10 +457,11 @@
           tooltip.html(``).css("visibility", "hidden");
           d3.select(this).attr("fill", '#ddd');
         });
-      
+      //re-position
       function project(d) {
           return map.project(new mapboxgl.LngLat(d[0], d[1]));
       }
+      //render map with new position
       function render() {
           dots.attr("cx", function(d) {return project(d).x;})
               .attr("cy", function(d) {return project(d).y;});
@@ -453,13 +472,16 @@
       map.on("moveend", render);
       render();
 
+      //refresh data when selected a country
       $('.dropdown-country').change(function(){
         currentCountry = this.value;
+        //transfer to the new country's position on the map
         flyMe(countryData[this.value].lat, countryData[this.value].lng);
         deaths = [], recovered = [], totalCases = [], dates = [], newCases=[], newCasesBar = [];
-        
+        //update deatils data for this specific country
         for(var i=0; i< data.length; i++){
           if(data[i]['Country/Region'] == currentCountry){
+              $('.currentCountry span').html(data[i]['Country/Region']);
               $('.recovered span').html(numberWithCommas(parseInt(data[i].Recovered)));
               $('.confirmed span').html(numberWithCommas(parseInt(data[i].Confirmed)));
               $('.deaths span').html(numberWithCommas(parseInt(data[i].Deaths)));
@@ -471,7 +493,7 @@
               dates.push(data[i].Date);
           }
         }
-
+        //new cases in each 190 days
         for(var i=0; i<190; i++){
           newCases.push(Math.abs(totalCases[i+1] - totalCases[i]));
           newCasesBar.push({
@@ -480,6 +502,7 @@
           });
         }
         cumData = [];
+        //date, confirm, recovered, death data in 190 days
         for(var i=190; i>0; i--){
           cumData.push({
             date: dates[dates.length-i],
@@ -490,65 +513,17 @@
         }
 
         d3.selectAll("#chart_new_cases svg> *").remove();
-        initBarChart(svgNewCases, newCasesBar);
+        currentCountryDailyNewCasesChart(svgNewCases, newCasesBar);
         d3.selectAll("#chart_cumulative_cases svg> *").remove();
         cumulativeChart(cumData);
       });
-
-      initBarChart(svgNewCases, newCasesBar);
-      initBarMovingChart(svgMovingNewCases, tglobalCumCases);
+      //render each chart/graph
+      currentCountryDailyNewCasesChart(svgNewCases, newCasesBar);
+      globalCurveChart(svgMovingNewCases, tglobalCumCases);
       cumulativeChart(cumData);
     });
 
-    function initLineChart(svg, data){
-      const max_bar_width = 100;
-      const bar_color = "#111";
-      const top_offset = 10;
-      const bottom_offset = 20;
-      const svg_width = svg.node().getBoundingClientRect().width;
-      let bar_width = Math.round((svg_width - 60) / data.length);
-      if (bar_width > max_bar_width) bar_width = max_bar_width;
-      let spacing = 0.15 * bar_width;
-      let color = d3.scaleOrdinal().range(["#35978f", "#dfc27d", "#8c510a"]);
-      
-      
-      let x = d3.scaleTime().domain(d3.extent(data, function(d) { return d.date; })).range([0, svg_width]);
-      let y = d3.scaleLinear().domain([
-        d3.min(data, function(d) { return Math.floor(d.data - 200); }),
-        d3.max(data, function(d) { return Math.floor(d.data + 200); })
-	    ]).range([svg_height, 0]);
-
-      // x-axis
-      svg.append("g") 
-        .attr("transform", "translate(0," + (svg_height-bottom_offset) + ")")
-        .call(d3.axisBottom(x));
-      
-      // y-axis
-      svg.append("g")
-        .call(d3.axisLeft(y));
-      
-
-      // line    
-      svg.append("path").datum(data)
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
-        .attr("d", d3.line().curve(d3.curveBasis)
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return y(d.data); })
-        )
-        .on("mouseover", function(d, i) {
-          tooltip.html(`Data: ${i.data}`).css("visibility", "visible");
-        })
-        .on("mousemove", function(){
-          tooltip.css({"top": (event.pageY-10)+"px", "left": (event.pageX+10)+"px"});
-        })
-        .on("mouseout", function() {
-          tooltip.html(``).css("visibility", "hidden");
-        });
-    }
-
-    function initBarChart(svg, data){
+    function currentCountryDailyNewCasesChart(svg, data){
       let max_bar_height = 0;
       for(const d in data) if(max_bar_height < data[d].value) max_bar_height = data[d].value;
       const max_bar_width = 100;
@@ -556,14 +531,14 @@
       const top_offset = 10;
       const bottom_offset = 30;
       const svg_width = svg.node().getBoundingClientRect().width;
-      let bar_width = Math.round((svg_width - 60) / data.length);
+      let bar_width = Math.round((svg_width + 60) / data.length);
       if (bar_width > max_bar_width) bar_width = max_bar_width;
       let spacing = 0.15 * bar_width;
       let scale = d3.scaleLinear().domain([0, max_bar_height]).range([0, svg_height]);
       let scale_y_axis = d3.scaleLinear().domain([max_bar_height, 0]).range([0, svg_height]);
 
       
-      // rect
+      // Daily New Cases bar chart rect for the selection country
       svg.selectAll("g").data(data).enter().append("rect")
         .attr("fill", bar_color)
         .attr("x", (d, i) => 30 + bar_width * i)
@@ -571,7 +546,7 @@
         .attr("width", bar_width - spacing)
         .attr("height", d => scale(d.value))
         .on("mouseover", function(d, i) {
-          tooltip.html(`${dateFormating(d.date)} : ${numberWithCommas(d.value)}`).css("visibility", "visible");
+          tooltip.html(`${dateFormating(d.date)} New Cases: ${numberWithCommas(d.value)}`).css("visibility", "visible");
           d3.select(this).attr("fill", '#ff0');
         })
         .on("mousemove", function(){
@@ -591,11 +566,6 @@
         .attr("x2", bar_width * data.length)
         .attr("y2", svg_height);
 
-      // svg.append("g")
-      //   .attr("class","x-axis")
-      //   .attr("transform", "translate(0," + (250) + ")")
-      //   .call(d3.axisBottom(scale_time).tickFormat(d3.timeFormat("%b")));
-
       // y-axis
       svg.append("g") 
         .attr("transform", "translate(0," + top_offset + ")")
@@ -603,7 +573,7 @@
 
     }
 
-    function initBarMovingChart(svg, data){
+    function globalCurveChart(svg, data){
       let max_bar_height = 0;
       for(const d in data) if(max_bar_height < data[d].value) max_bar_height = data[d].value;
       const max_bar_width = 100;
@@ -618,7 +588,7 @@
       let scale_y_axis = d3.scaleLinear().domain([max_bar_height, 0]).range([0, svg_height]);
 
 
-      // curve
+      // curve for both cumulative cases and global situation(Daily)
       var dt = d3.timeParse("%Y-%m-%d");
       var x = d3.scaleLinear().domain([0, max_bar_height]).range([ 0, svg_width - 100]);
       var y = d3.scaleLinear().domain([0, max_bar_height]).range([ svg_height, 0 ]);
@@ -647,7 +617,9 @@
       })
       .curve(d3.curveNatural); 
       
-      // rect
+      // Global Situation(Daily) bar rect
+      //input: sorted data
+      //output: rect bar chart
       svg.selectAll("g").data(data).enter().append("rect")
         .attr("fill", bar_color)
         .attr("x", (d, i) => 0 + bar_width * i)
@@ -655,7 +627,7 @@
         .attr("width", bar_width - spacing)
         .attr("height", d => scale(d.value))
         .on("mouseover", function(d, i) {
-          tooltip.html(`${dateFormating(d.date)}: ${numberWithCommas(d.value)}`).css("visibility", "visible");
+          tooltip.html(`${dateFormating(d.date)} Total Cases: ${numberWithCommas(d.value)}`).css("visibility", "visible");
           d3.select(this).attr("fill", '#ff0');
         })
         .on("mousemove", function(){
@@ -686,8 +658,10 @@
         .attr("d", movingAverageLine(data));
     }
 
-    function cumulativeChart(data) {
 
+    //chart for the cumulative of a selected country
+    //input: data => sorted data
+    function cumulativeChart(data) {
       var parseTime = d3.timeParse("%Y-%m-%d"),
       formatDate = d3.timeFormat("%Y-%m-%d"),
       bisectDate = d3.bisector(d => d.date).left,
@@ -732,7 +706,7 @@
       .attr("height", height)
 
       update(1, 0);
-
+      
       function update(input, speed) {
         var copy = ["confirmed", "recovered", "deaths"];
         var cities = copy.map(function(id) {
@@ -761,7 +735,9 @@
         tooltip(copy);
       }
 
+      //create tooltips 
       function tooltip(copy) {
+        //create tooltips for the cummulative cases
         var labels = focus.selectAll(".lineHoverText").data(copy)
 
         labels.enter().append("text")
@@ -772,6 +748,7 @@
         .attr("dy", (_, i) => 1 + i * 2 + "em")
         .merge(labels);
 
+        //create tooltips for the map
         var circles = focus.selectAll(".hoverCircle").data(copy)
 
         circles.enter().append("circle")
@@ -817,7 +794,7 @@
       }
 
     }
-
+    //transer on the map
     function flyMe(lat, lng){
       map.flyTo({center: [
         lng,
@@ -826,11 +803,11 @@
       essential: true 
       });
     }
-    
+    //format the data
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    
+    //format the date
     function dateFormating(d){
       var parseTime = d3.timeParse("%Y-%m-%d");
       var formatTime = d3.timeFormat("%b %d");
