@@ -31,13 +31,15 @@
       .overlay {fill: none;pointer-events: all;}
       .lineHoverText {text-shadow:-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff;}
       .hoverCircle {opacity: .75;}
+      .tableFixHead { overflow-y: auto; height: 100px; }
+      .tableFixHead thead th { position: sticky; top: 0; background-color: #fff;}
 
       .header {background: #FAF250; color: #24211B;}
       .header p span{font-weight: 700;}
       .header_stat{text-align: center;}
       .header_stat span {font-weight: 700;font-size: 25px;display: block;}
       .header_stat {text-align: center;font-size: 18px;font-weight: 200;}
-      .colorplate{background: linear-gradient(90deg, #F7F15C 0%, #F0C277 35%, #D76156 100%);width: 100px;height: 10px;}
+      .colorplate{background: linear-gradient(90deg, #F7F15C 0%, #F0C277 35%, #D76156 100%);width: 145px;height: 10px;}
       #map{position: absolute; top: 0; bottom: 0; width: 100%;}
       .bubble {fill-opacity: .7;stroke: #3b3b3b;stroke-width: 0.5px;}
       .d3-tooltip{position: absolute;z-index: 10;visibility: hidden;padding:15px;background: rgba(0,0,0,0.6);border-radius: 5px;color: #fff;}
@@ -70,7 +72,7 @@
             <div class="h5 mb-0 g_confirmed header_stat">Confirmed 🌐<span>0</span></div>
             <div class="h5 mb-0 g_recovered header_stat">Recovered 🌐<span>0</span></div>
             <div class="h5 mb-0 g_deaths header_stat">Deaths 🌐<span>0</span></div>
-            <div class="h5 mb-0 g_morality header_stat">Mortality🌐(%)<span>0</span></div>
+            <div class="h5 mb-0 g_mortality header_stat">Mortality🌐(%)<span>0</span></div>
           </div>
 
           <div class="row mb-3" style="margin-top: 100px;">
@@ -107,7 +109,7 @@
                 <!-- Card Header -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">World Map</h6>
-                  <span class="colorplate"></span> <span style="position: absolute;font-weight: 700;font-size: 10px;color: #111;top:4px;right: 20px;">&lt; 50,000 &dash; &gt; 1,000,000</span>
+                  <span class="colorplate"></span> <span style="position: absolute;font-weight: 700;font-size: 10px;color: #111;top:4px;right: 20px;">Low &lt;&dash; Mortality Rate &dash; &gt; High</span>
                 </div>
                 <!-- Card Body Map -->
                 <div class="card-body">
@@ -178,7 +180,7 @@
                     </div>
                     <div class="card-body" style="padding: 0;">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table tableFixHead table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <th>Country/Region ⇅</th>
                             <th>Confirmed ⇅</th>
@@ -331,7 +333,7 @@
               $('.recovered span').html(numberWithCommas(parseInt(data[i].Recovered)));
               $('.confirmed span').html(numberWithCommas(parseInt(data[i].Confirmed)));
               $('.deaths span').html(numberWithCommas(parseInt(data[i].Deaths)));
-              $('.morality span').html((parseInt(data[i].Deaths)/parseInt(data[i].Confirmed)).toFixed(2));
+              $('.mortality span').html((parseInt(data[i].Deaths)/parseInt(data[i].Confirmed)).toFixed(2));
               
               deaths.push(parseInt(data[i].Deaths));
               recovered.push(parseInt(data[i].Recovered));
@@ -343,7 +345,7 @@
       $('.g_recovered span').html(numberWithCommas(globalRecovered));
       $('.g_confirmed span').html(numberWithCommas(globalTotalCases));
       $('.g_deaths span').html(numberWithCommas(globalDeath));
-      $('.g_morality span').html((parseInt(globalDeath)/parseInt(globalTotalCases)).toFixed(2));
+      $('.g_mortality span').html((parseInt(globalDeath)/parseInt(globalTotalCases)).toFixed(2));
       
       for (const country in countryData) {
         //handle missing value
@@ -391,7 +393,7 @@
           <td>${numberWithCommas(countryData[country].death)}</td>
           <td style="width:15%">
             <div class="progress">
-              <div class="progress-bar bg-danger" role="progressbar" data-toggle="tooltip" data-placement="right" title="Morality ${deathRatio}%" style="width:${deathRatio}%" aria-valuenow="${deathRatio}" aria-valuemin="0" aria-valuemax="${totalRatio}"></div>
+              <div class="progress-bar bg-danger" role="progressbar" data-toggle="tooltip" data-placement="right" title="Mortality ${deathRatio}%" style="width:${deathRatio}%" aria-valuenow="${deathRatio}" aria-valuemin="0" aria-valuemax="${totalRatio}"></div>
               <div class="progress-bar bg-success" role="progressbar" data-toggle="tooltip" data-placement="right" title="Recovery ${recRatio}%" style="width:${recRatio}%" aria-valuenow="${recRatio}" aria-valuemin="0" aria-valuemax="${totalRatio}"></div>
               <div class="progress-bar bg-warning" role="progressbar" data-toggle="tooltip" data-placement="right" title="Newcases ${confRatio}%" style="width:${confRatio}%" aria-valuenow="${confRatio}" aria-valuemin="0" aria-valuemax="${totalRatio}"></div>
             </div>
@@ -485,7 +487,7 @@
               $('.recovered span').html(numberWithCommas(parseInt(data[i].Recovered)));
               $('.confirmed span').html(numberWithCommas(parseInt(data[i].Confirmed)));
               $('.deaths span').html(numberWithCommas(parseInt(data[i].Deaths)));
-              $('.morality span').html((parseInt(data[i].Deaths)/parseInt(data[i].Confirmed)).toFixed(2));
+              $('.mortality span').html((parseInt(data[i].Deaths)/parseInt(data[i].Confirmed)).toFixed(2));
                 
               deaths.push(parseInt(data[i].Deaths));
               recovered.push(parseInt(data[i].Recovered));

@@ -6,6 +6,13 @@ We designed amd implemented a software system for an information visualization a
 
 We are team 16(SuperUXR) Faisal Zaman (300518055) and Kun Huang (300291127)
 
+Github Link:
+https://github.com/jquery404/dataviz
+
+Data Source:
+time-series-19-covid-combined.csv
+https://github.com/datasets/covid-19/tree/master/data?fbclid=IwAR02EnhJpO8kKJFt4lbSe0ASEQP1Sv-20r_4ggh7U4fJapcQVH9fJa6H5eE
+
 ### How to run this project
 
 This app needs to run on a HTTP server.
