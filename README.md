@@ -1,6 +1,8 @@
 # dataviz
 
 ### Information Visualization
+Project Link: 
+http://covid-swen422.herokuapp.com/
 
 We designed amd implemented a software system for an information visualization application. The information visualization system should allow a user to interactively explore the COVID-19 dataset.
 
